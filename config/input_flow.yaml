@@ -1,0 +1,49 @@
+version: "1.0.0"
+flow:
+  - id: "step_0"
+    field: "sleep"
+    question: "Сколько ты спал?"
+    options:
+      - { label: "<5", value: 4.0, next: "step_1" }
+      - { label: "6–7", value: 6.5, next: "step_1" }
+      - { label: "8+", value: 9.0, next: "step_1" }
+  - id: "step_1"
+    field: "energy"
+    question: "Уровень энергии (1-10)?"
+    options:
+      - { label: "Низкий", value: 3, next: "step_2" }
+      - { label: "Средний", value: 6, next: "step_2" }
+      - { label: "Высокий", value: 9, next: "step_2" }
+  - id: "step_2"
+    field: "mood"
+    question: "Какое настроение (1-10)?"
+    options:
+      - { label: "Мрак", value: 3, next: "step_3" }
+      - { label: "Ровно", value: 6, next: "step_3" }
+      - { label: "Отлично", value: 9, next: "step_3" }
+  - id: "step_3"
+    field: "activity"
+    question: "Уровень активности?"
+    options:
+      - { label: "Нет", value: "none", next: "step_4" }
+      - { label: "Низкая", value: "low", next: "step_4" }
+      - { label: "Высокая", value: "high", next: "step_4" }
+  - id: "step_4"
+    field: "food"
+    question: "Качество еды?"
+    options:
+      - { label: "Норма", value: "normal", next: "step_5" }
+      - { label: "Мусор", value: "junk", next: "step_5" }
+  - id: "step_5"
+    field: "screen"
+    question: "Экранное время?"
+    options:
+      - { label: "<2ч", value: 1.0, next: "step_6" }
+      - { label: "2-5ч", value: 3.5, next: "step_6" }
+      - { label: "5ч+", value: 6.0, next: "step_6" }
+  - id: "step_6"
+    field: "alcohol"
+    question: "Был ли алкоголь?"
+    options:
+      - { label: "Да", value: true, next: "finalize" }
+      - { label: "Нет", value: false, next: "finalize" }

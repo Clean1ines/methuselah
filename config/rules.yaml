@@ -1,0 +1,52 @@
+version: "2.0.0"
+
+engine:
+  max_rules: 2
+  selection_strategy: "weighted"
+  max_per_category: 1
+  allow_duplicates: false
+  memory_limit: 10
+
+derived_metrics:
+  - id: balanced_all
+    all:
+      - { field: sleep, op: ">=", value: 7 }
+      - { field: activity, op: "==", value: "high" }
+      - { field: food, op: "==", value: "normal" }
+  - id: high_stress_calc
+    any:
+      - { field: mood, op: "<=", value: 4 }
+      - { field: energy, op: "<=", value: 3 }
+
+streak_rules:
+  - conditions: { field: streak_days, op: "==", value: 1 }
+    message: "День 1. Начало всегда тихое."
+  - conditions: { field: streak_days, op: "==", value: 3 }
+    message: "Три дня. Ритм установлен."
+  - conditions: { field: streak_days, op: "==", value: 5 }
+    message: "Пять дней постоянства. Привычка выковывается в огне."
+
+rules:
+  - id: low_sleep
+    category: "sleep"
+    priority: 10
+    conditions: { field: sleep, op: "<", value: 6 }
+    message_id: "low_sleep"
+  
+  - id: perfect_balance
+    category: "meta"
+    priority: 25
+    conditions: { field: balanced_all, op: "==", value: true }
+    message_id: "ideal_balance"
+
+  - id: high_screen
+    category: "screen"
+    priority: 7
+    conditions: { field: screen, op: ">", value: 5 }
+    message_id: "high_screen"
+    
+  - id: alcohol_alert
+    category: "stress"
+    priority: 15
+    conditions: { field: alcohol, op: "==", value: true }
+    message_id: "alcohol"
